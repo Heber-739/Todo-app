@@ -1,14 +1,51 @@
-table {
+table.mat-elevation-z8 {
   width: 100%;
-  background: var(--color2)
+  background: var(--color2);
+  table-layout: fixed;
+}
+
+tr th:nth-child(1) {
+  width: 50%;
+}
+
+tr th:nth-child(2) {
+  width: 10%;
+}
+
+tr th:nth-child(3) {
+  width: 10%;
+}
+
+tr th:nth-child(4) {
+  width: 10%;
+}
+tr th:nth-child(5) {
+  width: 10%;
+}
+
+th.titles{
+  text-align: center;
+  font-size: 1.5rem;
+}
+th.titles, td{
+  text-align: center;
+}
+
+tr .mat-mdc-cell:nth-child(1){
+  padding-left: 5%;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 tr.detail-row {
   height: 0;
+  text-align: justify;
 }
 
 tr.element-row:not(.expanded-row):hover {
-  background: var(--color5);
+  background: var(--color4);
 }
 
 tr.element-row:not(.expanded-row):active {
