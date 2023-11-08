@@ -1,0 +1,39 @@
+table {
+  width: 100%;
+  background: var(--color2)
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: var(--color5);
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: whitesmoke;
+}
+
+
+tr.element-row.expanded-row {
+  background: var(--color4);
+}
+
+tr.element-row.expanded-row + tr.detail-row{
+  background: var(--color4);
+}
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.item_detail {
+  overflow: hidden;
+  display: flex;
+}
+
+
+.detail {
+  padding: 16px;
+  text-align: justify;
+}
