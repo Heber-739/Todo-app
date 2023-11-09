@@ -11,8 +11,7 @@ export class TodosService {
 
   getTodos():Observable<Todo[]>{
     return this.http.get<Todo[]>(this.url).pipe(
-      catchError((err)=> {throw Error(err)}),
-      tap(console.log)
+      catchError((err)=> {throw Error(err)})
     )
   }
 }

@@ -1,0 +1,9 @@
+.header{
+  background: var(--color5);
+}
+.title {
+  font-size: 1.5rem;
+}
+.expansion-panel-header{
+  height: 80px;
+}

@@ -6,9 +6,15 @@
   --color4: #060940;
   --color5: #00a68b;
   --text-w: white;
-  --text-d: white;
+  --text-d: black;
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

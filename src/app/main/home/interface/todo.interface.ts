@@ -1,4 +1,5 @@
 export interface Todo {
+  uid:           string;
   title:         string;
   description:   string;
   priority:      Priority;
@@ -17,7 +18,6 @@ export enum Priority {
 
 export enum State {
   PENDING =     'PENDING',
-  PROGRESS =    'PROGRESS',
   DONE =        'DONE'
 }
 

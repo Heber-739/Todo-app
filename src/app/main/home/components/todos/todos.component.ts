@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-import { Todo } from './../../interface/todo.interface';
+import { State, Todo } from './../../interface/todo.interface';
 import { TodosService } from '../../services/todos.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-todos',
@@ -19,15 +21,21 @@ import { TodosService } from '../../services/todos.service';
 
 
 export class TodosComponent implements OnInit {
+  displayedColumns: string[] = ['title','priority','expiration','state'];
+  todos:Todo[]=[];
+  dataSource!:MatTableDataSource<Todo>;
+  todoDetail:Todo | null = null;
 
-  dataSource:Todo[] =[];
-  columnsToDisplay = ['title','priority','expiration','state'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement: Todo | null = null;
+  colors: {[key:string]:string} = {
+    "DONE":'primary',
+    "PENDING":'accent',
+  }
 
+  uids:string[]=[]
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private todoService:TodosService){}
-
 
   ngOnInit(): void {
     this.getTodos()
@@ -36,17 +44,28 @@ export class TodosComponent implements OnInit {
   private getTodos(){
     this.todoService.getTodos().subscribe({
       next:(todos) => {
-        this.dataSource = todos
+        this.todos = todos
+        this.setPaginator()
+
       }
     })
   }
 
+  private setPaginator(){
+    this.dataSource = new MatTableDataSource<Todo>(this.todos)
+    this.dataSource.paginator = this.paginator;
+  }
 
+  changeStatus(uid:string){
+    this.todos = this.todos.map((todo)=>{
+      if(todo.uid === uid){
+        todo.state = todo.state === State.DONE ? State.PENDING:State.DONE
+      }
+      return todo;
+    })
+  }
 
-
-
-
-
-
-
+  openTodo(todo:Todo){
+    this.todoDetail = this.todoDetail && this.todoDetail.uid === todo.uid ? null : todo;
+  }
 }
