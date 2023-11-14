@@ -1,4 +1,6 @@
+import { TodoFormComponent } from './../todo-form/todo-form.component';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-todos-header',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./todos-header.component.css']
 })
 export class TodosHeaderComponent {
+
+  constructor(public dialog: MatDialog){}
+
+  openDialog(){
+    this.dialog.open(TodoFormComponent)
+  }
 
 }

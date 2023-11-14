@@ -1,30 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import { State, Todo } from './../../interface/todo.interface';
 import { TodosService } from '../../services/todos.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { TodoFormComponent } from '../todo-form/todo-form.component';
 
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+
 })
 
 
 export class TodosComponent implements OnInit {
-  displayedColumns: string[] = ['title','priority','expiration','state'];
+  displayedColumns: string[] = ['title','priority','expiration','state','menu'];
   todos:Todo[]=[];
   dataSource!:MatTableDataSource<Todo>;
-  todoDetail:Todo | null = null;
+  todoEdit:Todo | null = null;
 
   colors: {[key:string]:string} = {
     "DONE":'primary',
@@ -35,18 +30,19 @@ export class TodosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private todoService:TodosService){}
+  constructor(
+    private todoService:TodosService,
+    public dialog: MatDialog){}
 
   ngOnInit(): void {
     this.getTodos()
   }
 
   private getTodos(){
-    this.todoService.getTodos().subscribe({
+    this.todoService.listenTodos().subscribe({
       next:(todos) => {
         this.todos = todos
         this.setPaginator()
-
       }
     })
   }
@@ -65,7 +61,16 @@ export class TodosComponent implements OnInit {
     })
   }
 
-  openTodo(todo:Todo){
-    this.todoDetail = this.todoDetail && this.todoDetail.uid === todo.uid ? null : todo;
+  addTodo(todo:Todo){
+    this.todos.unshift(todo);
   }
+
+  updateTodo(todo:Todo){
+    this.todos = this.todos.map((t)=>t.uid===todo.uid ? todo:t)
+  }
+
+  editTodo(todo:Todo){
+    this.dialog.open(TodoFormComponent,{data:todo})
+  }
+
 }

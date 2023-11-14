@@ -7,8 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { TodosHeaderComponent } from './components/todos-header/todos-header.component';
 import { TodoFormComponent } from './components/todo-form/todo-form.component';
-import { HttpClientModule } from '@angular/common/http';
-import { TodosService } from './services/todos.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,11 @@ import { TodosService } from './services/todos.service';
     TodosHeaderComponent,
     TodoFormComponent,
   ],
-  imports: [CommonModule, HomeRoutingModule, MaterialModule, HttpClientModule],
-  providers: [TodosService],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    MaterialModule,
+    ReactiveFormsModule,
+  ],
 })
 export class HomeModule {}

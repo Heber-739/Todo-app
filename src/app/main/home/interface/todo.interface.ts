@@ -7,7 +7,6 @@ export interface Todo {
   expiration:    Date;
   state:         State;
   tags:          string[];
-  comments:      string[];
 }
 
 export enum Priority {
