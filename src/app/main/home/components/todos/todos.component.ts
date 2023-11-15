@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { State, Todo } from './../../interface/todo.interface';
-import { TodosService } from '../../services/todos.service';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+
+import { Store } from '@ngrx/store';
+import { AppState } from './../../ngrx/app.state';
+import { State, Todo } from './../../interface/todo.interface';
 import { TodoFormComponent } from '../todo-form/todo-form.component';
+import { deleteTodo, updateTodo } from '../../ngrx/todo.actions';
 
 @Component({
   selector: 'app-todos',
@@ -26,47 +29,36 @@ export class TodosComponent implements OnInit {
     "PENDING":'accent',
   }
 
-  uids:string[]=[]
+  // uids:string[]=[]
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private todoService:TodosService,
-    public dialog: MatDialog){}
+    public dialog: MatDialog,
+    private store:Store<AppState>
+    ){}
 
   ngOnInit(): void {
     this.getTodos()
   }
 
   private getTodos(){
-    this.todoService.listenTodos().subscribe({
-      next:(todos) => {
-        this.todos = todos
-        this.setPaginator()
-      }
-    })
+    this.store.subscribe(({todos}) =>{
+       this.dataSource = new MatTableDataSource<Todo>(todos)
+       this.dataSource.paginator = this.paginator;
+    });
   }
 
-  private setPaginator(){
-    this.dataSource = new MatTableDataSource<Todo>(this.todos)
-    this.dataSource.paginator = this.paginator;
+  deleteTodo(uid:string){
+    this.store.dispatch(deleteTodo({uid}))
   }
 
-  changeStatus(uid:string){
-    this.todos = this.todos.map((todo)=>{
-      if(todo.uid === uid){
-        todo.state = todo.state === State.DONE ? State.PENDING:State.DONE
-      }
-      return todo;
-    })
-  }
-
-  addTodo(todo:Todo){
-    this.todos.unshift(todo);
-  }
-
-  updateTodo(todo:Todo){
-    this.todos = this.todos.map((t)=>t.uid===todo.uid ? todo:t)
+  changeStatus(todo:Todo){
+    let update_todo:Todo = {
+      ...todo,
+      state:todo.state === State.DONE ? State.PENDING:State.DONE
+    }
+   this.store.dispatch(updateTodo({todo:update_todo}))
   }
 
   editTodo(todo:Todo){

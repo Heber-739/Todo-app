@@ -25,7 +25,7 @@
     <ng-container matColumnDef="state">
       <th class="titles state" mat-header-cell *matHeaderCellDef> Estado </th>
       <td mat-cell class="todo_state" *matCellDef="let element">
-        <button mat-stroked-button (click)="changeStatus(element.uid)" [color]="colors[element.state]">{{element.state}} </button>
+        <button mat-stroked-button (click)="changeStatus(element)" [color]="colors[element.state]">{{element.state}} </button>
       </td>
     </ng-container>
 
@@ -41,7 +41,7 @@
             <mat-icon>edit</mat-icon>
             <span>Editar</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="deleteTodo(element.uid)" >
             <mat-icon>delete</mat-icon>
             <span>Eliminar</span>
           </button>

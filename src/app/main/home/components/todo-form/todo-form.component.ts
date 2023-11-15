@@ -6,8 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { TodosService } from '../../services/todos.service';
 import {v4 } from 'uuid';
+import { Store } from '@ngrx/store';
+import { createTodo, updateTodo } from '../../ngrx/todo.actions';
 
 @Component({
   selector: 'app-todo-form',
@@ -26,10 +27,10 @@ export class TodoFormComponent implements OnInit {
   });
 
   constructor(
-    private todoS: TodosService,
     public dialogRef: MatDialogRef<TodoFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Todo,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store:Store
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +45,8 @@ export class TodoFormComponent implements OnInit {
     }
   }
 
-  addTag(tag:string){
+  addTag(tag:string):void{
+    if(!tag) return;
     this.chips.push(tag);
     this.todoForm.controls['tags'].setValue('')
   }
@@ -57,9 +59,14 @@ export class TodoFormComponent implements OnInit {
     if(this.todoForm.invalid) return;
     const formData = this.todoForm.value
     if(this.data){
-      let updated = Object.assign(this.data,formData)
-      updated.tags = this.chips
-      this.todoS.updateTodo(updated).then(()=>this.close())
+      const {uid,creationDate}=this.data;
+      let updated:Todo ={
+        uid,
+        creationDate,
+        tags:this.chips,
+        ...formData
+      }
+      this.store.dispatch(updateTodo({todo:updated}));
     } else{
       let newTodo:Todo = {
         uid: v4(),
@@ -67,8 +74,9 @@ export class TodoFormComponent implements OnInit {
         creationDate: new Date(),
         ...formData
       }
-      this.todoS.createTodo(newTodo).then(()=>this.close())
-    }
+        this.store.dispatch(createTodo({todo:newTodo}))
+      }
+      this.close()
   }
 
   close(){

@@ -1,8 +1,9 @@
+import { initializate } from './../main/home/ngrx/todo.actions';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo } from '../interface/todo.interface';
-import { BehaviorSubject, catchError, Observable, of, Subject, Subscription, tap } from 'rxjs';
-import * as data from './../../../../assets/todos.json';
+import { Todo } from '../main/home/interface/todo.interface';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 
 @Injectable({providedIn: 'root'})
@@ -12,20 +13,7 @@ export class TodosService {
   private todos = new BehaviorSubject<Todo[]>([]);
 
   private url = 'assets/todos.json'
-  constructor(private http: HttpClient) {
-    const obs:Subscription = this.http.get<Todo[]>(this.url).subscribe({
-      next:(todos)=>{
-        this.allTodos = todos;
-        this.todos.next(todos);
-      },
-      error:(err)=>console.error(err),
-      complete:()=>obs.unsubscribe()
-    })
-  }
 
-  public listenTodos():BehaviorSubject<Todo[]>{
-    return this.todos
-  }
 
   filterByText(value:string | null){
     if(!value) this.todos.next(this.allTodos)
