@@ -17,6 +17,7 @@ export enum Priority {
 
 export enum State {
   PENDING =     'PENDING',
-  DONE =        'DONE'
+  DONE =        'DONE',
+  ALL =        'ALL'
 }
 

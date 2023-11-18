@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 
 import { todoReducer } from './main/home/ngrx/todo.reducer';
+import { appReducers } from './main/home/ngrx/app.state';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { todoReducer } from './main/home/ngrx/todo.reducer';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({todos:todoReducer}),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),

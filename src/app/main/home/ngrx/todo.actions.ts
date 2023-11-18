@@ -2,8 +2,6 @@ import { createAction, props } from "@ngrx/store";
 import { Todo } from "../interface/todo.interface";
 
 
-
-
 export const initializate = createAction(
   '[Todo[]] initializate',
   props<{todos:Todo[]}>()
@@ -22,4 +20,9 @@ export const updateTodo = createAction(
 export const deleteTodo = createAction(
   '[Todo] deleteTodo',
   props<{uid:string}>()
+);
+
+export const filterByStatus = createAction(
+  '[Filtro] filterByStatus',
+  props<{filter:string}>()
 );

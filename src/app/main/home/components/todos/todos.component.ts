@@ -43,8 +43,9 @@ export class TodosComponent implements OnInit {
   }
 
   private getTodos(){
-    this.store.subscribe(({todos}) =>{
-       this.dataSource = new MatTableDataSource<Todo>(todos)
+    this.store.subscribe(({filter,todos}) =>{
+      let todosFilter  =  todos.filter((t)=>t.state===filter || filter === 'ALL');
+       this.dataSource = new MatTableDataSource<Todo>(todosFilter)
        this.dataSource.paginator = this.paginator;
     });
   }

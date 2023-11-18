@@ -18,8 +18,8 @@ import { createTodo, updateTodo } from '../../ngrx/todo.actions';
 export class TodoFormComponent implements OnInit {
   chips: string[] = [];
   todoForm: FormGroup = this.fb.group({
-    title: ['', [Validators.required]],
-    description: ['', [Validators.required]],
+    title: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(100)]],
+    description: ['', [Validators.required,Validators.minLength(20),Validators.maxLength(200)]],
     priority: [Priority.MEDIUM, [Validators.required]],
     expiration: ['', [Validators.required]],
     state: [State.PENDING, [Validators.required]],

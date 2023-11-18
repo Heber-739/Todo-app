@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { createTodo, deleteTodo, initializate, updateTodo } from './todo.actions';
+import { createTodo, deleteTodo, filterByStatus, initializate, updateTodo } from './todo.actions';
 import { Todo } from '../interface/todo.interface';
 
 export const initialState:Todo[] = [];
