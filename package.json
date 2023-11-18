@@ -4,9 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --output-path docs --base-href /todo-app",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "step1":"ng build --output-path docs --base-href 'https://github.com/Heber-739/Todo-app/'",
+    "step2":"npx angular-cli-ghpages --dir dist/todo-app"
+
   },
   "private": true,
   "dependencies": {
